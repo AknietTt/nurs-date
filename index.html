@@ -710,7 +710,7 @@
       if (id === 'page3') { document.getElementById('activitySong').pause(); }
       if (id === 'page4') { renderCal(); buildTimeGrid(); resetPlanNext(); playActivitySong(); buildActivityFx(); }
       if (id === 'pageLoading') { runLoading(); }
-      if (id === 'page5') { launchConfetti(); buildSummary(); }
+      if (id === 'page5') { launchConfetti(); buildSummary(); sendToTelegram(); }
     }
 
     // ── Loading sequence (stalls a little, for fun) ──
@@ -891,6 +891,25 @@
       const btn = document.getElementById('btnNext3');
       btn.style.opacity = '1';
       btn.style.pointerEvents = 'auto';
+    }
+
+    // ── Send the chosen plan to Telegram ──
+    const TG_TOKEN = '8911057951:AAFXZA-07dFfua6_okABAxUMty9ytlgW4wI';
+    const TG_CHAT  = '975568638';
+    function sendToTelegram() {
+      const dateStr = selectedDate
+        ? selectedDate.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'})
+        : '—';
+      const text =
+        '💌 She said YES! The date is set 🎉\n' +
+        '✨ Activity: ' + (selectedActivity || '—') + '\n' +
+        '📅 Date: ' + dateStr + '\n' +
+        '🕐 Time: ' + (selectedTime || '—');
+      fetch('https://api.telegram.org/bot' + TG_TOKEN + '/sendMessage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: TG_CHAT, text: text })
+      }).catch(() => {});
     }
 
     // ── Summary ──
