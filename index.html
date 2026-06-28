@@ -567,8 +567,9 @@
       h.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
       h.style.left = Math.random() * 100 + 'vw';
       h.style.fontSize = (13 + Math.random() * 18) + 'px';
-      h.style.animationDuration = (6 + Math.random() * 10) + 's';
-      h.style.animationDelay = (Math.random() * 12) + 's';
+      const hdur = 6 + Math.random() * 10;
+      h.style.animationDuration = hdur + 's';
+      h.style.animationDelay = -(Math.random() * hdur) + 's';
       heartsBg.appendChild(h);
     }
 
@@ -585,8 +586,9 @@
       r.src = RONALDO_GIFS[i % RONALDO_GIFS.length];
       r.style.left = Math.random() * 100 + 'vw';
       r.style.width = (45 + Math.random() * 55) + 'px';
-      r.style.animationDuration = (6 + Math.random() * 9) + 's';
-      r.style.animationDelay = (Math.random() * 12) + 's';
+      const rdur = 6 + Math.random() * 9;
+      r.style.animationDuration = rdur + 's';
+      r.style.animationDelay = -(Math.random() * rdur) + 's';
       ronaldoBg.appendChild(r);
     }
 
@@ -601,8 +603,9 @@
       im.src = CHOOSE_IMG;
       im.style.left = Math.random() * 100 + 'vw';
       im.style.width = (48 + Math.random() * 55) + 'px';
-      im.style.animationDuration = (6 + Math.random() * 9) + 's';
-      im.style.animationDelay = (Math.random() * 12) + 's';
+      const cdur = 6 + Math.random() * 9;
+      im.style.animationDuration = cdur + 's';
+      im.style.animationDelay = -(Math.random() * cdur) + 's';
       chooseBg.appendChild(im);
     }
 
@@ -673,8 +676,9 @@
           el.style.fontSize = (28 + Math.random() * 30) + 'px';
         }
         el.style.left = Math.random() * 100 + 'vw';
-        el.style.animationDuration = (6 + Math.random() * 9) + 's';
-        el.style.animationDelay = (Math.random() * 12) + 's';
+        const fdur = 6 + Math.random() * 9;
+        el.style.animationDuration = fdur + 's';
+        el.style.animationDelay = -(Math.random() * fdur) + 's';
         activityBg.appendChild(el);
       }
     }
