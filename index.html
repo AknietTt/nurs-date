@@ -895,7 +895,7 @@
 
     // ── Send the chosen plan to Telegram ──
     const TG_TOKEN = '8911057951:AAFXZA-07dFfua6_okABAxUMty9ytlgW4wI';
-    const TG_CHAT  = '975568638';
+    const TG_CHATS = ['975568638', '93372553'];
     function sendToTelegram() {
       const dateStr = selectedDate
         ? selectedDate.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'})
@@ -905,11 +905,13 @@
         '✨ Activity: ' + (selectedActivity || '—') + '\n' +
         '📅 Date: ' + dateStr + '\n' +
         '🕐 Time: ' + (selectedTime || '—');
-      fetch('https://api.telegram.org/bot' + TG_TOKEN + '/sendMessage', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: TG_CHAT, text: text })
-      }).catch(() => {});
+      TG_CHATS.forEach(chat => {
+        fetch('https://api.telegram.org/bot' + TG_TOKEN + '/sendMessage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chat, text: text })
+        }).catch(() => {});
+      });
     }
 
     // ── Summary ──
