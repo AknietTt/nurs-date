@@ -56,6 +56,16 @@
       user-select: none;
       animation: floatUpR linear infinite;
     }
+    .fx-word {
+      position: absolute;
+      user-select: none;
+      font-family: 'Georgia', serif;
+      font-weight: bold;
+      color: #c03060;
+      text-shadow: 0 2px 6px rgba(255,255,255,0.6);
+      white-space: nowrap;
+      animation: floatUpR linear infinite;
+    }
     .fx-img {
       position: absolute;
       border-radius: 10px;
@@ -447,6 +457,7 @@
 
   <audio id="song" src="Mac_Miller_-_Congratulations_Feat_Bilal_HipHop4Real_(SkySound.cc).mp3" preload="auto"></audio>
   <audio id="activitySong" preload="auto"></audio>
+  <audio id="finalSong" src="3_PARTYNEXTDOOR_-_Break_From_Toronto_(mp3.pm).mp3" preload="auto"></audio>
 
   <!-- PAGE 1: Will you go on a date? -->
   <div class="page active" id="page1">
@@ -475,8 +486,8 @@
   <div class="page" id="page3">
     <div class="card" style="max-width:520px;">
       <span class="big-emoji" style="animation:bounce 1s ease-in-out infinite alternate;">✨</span>
-      <h1>What do you wanna do?</h1>
-      <p class="sub">Let's add another "first".</p>
+      <h1>Where will we spend our next 6–7 hours together? 🤔</h1>
+      <p class="sub">Let's party... next door 😉</p>
       <div class="food-grid">
         <div class="food-item" onclick="selectActivity(this,'Horse riding')">
           <span class="food-emoji">🐴</span>
@@ -573,6 +584,23 @@
       heartsBg.appendChild(h);
     }
 
+    // ── Floating words (sprinkled in, moderately) ──
+    const FX_WORDS = ['шнэйнэ', 'пэпэ', 'ватафа'];
+    function addFloatingWords(container, count) {
+      for (let i = 0; i < count; i++) {
+        const w = document.createElement('div');
+        w.className = 'fx-word';
+        w.textContent = FX_WORDS[Math.floor(Math.random() * FX_WORDS.length)];
+        w.style.left = Math.random() * 100 + 'vw';
+        w.style.fontSize = (16 + Math.random() * 16) + 'px';
+        const wdur = 6 + Math.random() * 9;
+        w.style.animationDuration = wdur + 's';
+        w.style.animationDelay = -(Math.random() * wdur) + 's';
+        container.appendChild(w);
+      }
+    }
+    addFloatingWords(heartsBg, 4);
+
     // ── Floating Ronaldos (shown on page 2) ──
     const ronaldoBg = document.getElementById('ronaldoBg');
     const RONALDO_GIFS = [
@@ -591,6 +619,7 @@
       r.style.animationDelay = -(Math.random() * rdur) + 's';
       ronaldoBg.appendChild(r);
     }
+    addFloatingWords(ronaldoBg, 4);
 
     const activityBg = document.getElementById('activityBg');
 
@@ -608,6 +637,7 @@
       im.style.animationDelay = -(Math.random() * cdur) + 's';
       chooseBg.appendChild(im);
     }
+    addFloatingWords(chooseBg, 4);
 
     // ── No button escape ──
     const noBtn = document.getElementById('noBtn');
@@ -681,6 +711,7 @@
         el.style.animationDelay = -(Math.random() * fdur) + 's';
         activityBg.appendChild(el);
       }
+      addFloatingWords(activityBg, 3);
     }
 
     function playActivitySong() {
@@ -714,7 +745,7 @@
       if (id === 'page3') { document.getElementById('activitySong').pause(); }
       if (id === 'page4') { renderCal(); buildTimeGrid(); resetPlanNext(); playActivitySong(); buildActivityFx(); }
       if (id === 'pageLoading') { runLoading(); }
-      if (id === 'page5') { launchConfetti(); buildSummary(); sendToTelegram(); }
+      if (id === 'page5') { launchConfetti(); buildSummary(); sendToTelegram(); playFinalSong(); }
     }
 
     // ── Loading sequence (stalls a little, for fun) ──
@@ -897,6 +928,15 @@
       btn.style.pointerEvents = 'auto';
     }
 
+    // ── Final-page song (plays from the start) ──
+    function playFinalSong() {
+      document.getElementById('song').pause();
+      document.getElementById('activitySong').pause();
+      const f = document.getElementById('finalSong');
+      try { f.currentTime = 0; } catch (e) {}
+      f.play().catch(() => {});
+    }
+
     // ── Send the chosen plan to Telegram ──
     const TG_TOKEN = '8911057951:AAFXZA-07dFfua6_okABAxUMty9ytlgW4wI';
     const TG_CHATS = ['975568638', '482415256'];
@@ -924,7 +964,7 @@
         ? selectedDate.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'})
         : '—';
       document.getElementById('summary').innerHTML =
-        `We're going on a date! 💖<br><br>
+        `I know you're smiling right now 😉<br>"That smile on your face makes it easy)"<br><br>
         ✨ <strong>${selectedActivity}</strong> it is!<br>
         📅 <strong>${dateStr}</strong><br>
         🕐 <strong>${selectedTime}</strong><br><br>
